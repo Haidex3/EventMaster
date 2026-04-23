@@ -1,0 +1,48 @@
+package com.develop.eventmaster.ui.screens
+
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.develop.eventmaster.viewmodel.EventViewModel
+
+@Composable
+fun HomeScreen(navController: NavController, viewModel: EventViewModel) {
+
+    Scaffold(
+        floatingActionButton = {
+            Column {
+                FloatingActionButton(onClick = {
+                    navController.navigate("addCategory")
+                }) {
+                    Text("+C")
+                }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                FloatingActionButton(onClick = {
+                    navController.navigate("addEvent")
+                }) {
+                    Text("+E")
+                }
+            }
+        }
+    ) { padding ->
+
+        LazyColumn(modifier = Modifier.padding(padding)) {
+
+            items(viewModel.categories) { category ->
+
+                Text(
+                    text = category.name,
+                    style = MaterialTheme.typography.titleLarge,
+                    modifier = Modifier.padding(8.dp)
+                )
+
+            }
+        }
+    }
+}
