@@ -1,36 +1,50 @@
 package com.develop.eventmaster.viewmodel
 
-import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.develop.eventmaster.model.Category
-import com.develop.eventmaster.model.Event
+import androidx.lifecycle.viewModelScope
+import com.develop.eventmaster.data.local.entities.EventEntity
+import com.develop.eventmaster.data.repository.EventRepository
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
+class EventViewModel(
+    private val repository: EventRepository
+) : ViewModel() {
 
-class EventViewModel : ViewModel() {
+    var title by mutableStateOf("")
 
-    private var categoryId = 0
-    private var eventId = 0
+    var description by mutableStateOf("")
 
-    val categories = mutableStateListOf<Category>()
-    val events = mutableStateListOf<Event>()
+    val events = repository.getAllEvents()
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5000),
+            emptyList()
+        )
 
-    init {
-        addCategory("Música")
-        addCategory("Tecnología")
-        addCategory("Deportes")
+    fun addEvent() {
+
+        if(title.isBlank()) return
+
+        viewModelScope.launch {
+
+            repository.insertEvent(
+                EventEntity(
+                    title = title,
+                    description = description,
+                    place = "Sin lugar",
+                    date = "Sin fecha",
+                    categoryId = 1
+                )
+            )
+
+            title = ""
+
+            description = ""
+        }
     }
-
-    fun addCategory(name: String) {
-        categories.add(Category(categoryId++, name))
-    }
-
-    fun addEvent(title: String, description: String, categoryId: Int) {
-        events.add(Event(eventId++, title, description, categoryId))
-    }
-
-    fun getEventsByCategory(id: Int) =
-        events.filter { it.categoryId == id }
-
-    fun getEventById(id: Int) =
-        events.find { it.id == id }
 }

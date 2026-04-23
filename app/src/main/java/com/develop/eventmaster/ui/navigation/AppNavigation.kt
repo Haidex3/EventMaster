@@ -1,37 +1,86 @@
 package com.develop.eventmaster.ui.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavType
-import androidx.navigation.compose.*
-import androidx.navigation.navArgument
-import com.develop.eventmaster.ui.screens.AddCategoryScreen
-import com.develop.eventmaster.ui.screens.AddEventScreen
-import com.develop.eventmaster.ui.screens.DetailScreen
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.room3.Room
+import com.develop.eventmaster.data.local.AppDatabase
+import com.develop.eventmaster.data.repository.CategoryRepository
+import com.develop.eventmaster.data.repository.EventRepository
 import com.develop.eventmaster.ui.screens.HomeScreen
+import com.develop.eventmaster.ui.screens.addcategory.AddCategoryScreen
+import com.develop.eventmaster.ui.screens.addevent.AddEventScreen
+import com.develop.eventmaster.ui.screens.detail.DetailScreen
+import com.develop.eventmaster.viewmodel.CategoryViewModel
 import com.develop.eventmaster.viewmodel.EventViewModel
 
 @Composable
-fun AppNavigation(viewModel: EventViewModel) {
+fun AppNavigation() {
 
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = "home") {
+    val context = LocalContext.current
 
-        composable("home") {
-            HomeScreen(navController, viewModel)
+    val database = remember {
+
+        Room.databaseBuilder(
+            context,
+            AppDatabase::class.java,
+            "event_master_db"
+        ).build()
+    }
+
+    val eventRepository = remember {
+        EventRepository(database.eventDao())
+    }
+
+    val categoryRepository = remember {
+        CategoryRepository(database.categoryDao())
+    }
+
+    val eventViewModel = remember {
+        EventViewModel(eventRepository)
+    }
+
+    val categoryViewModel = remember {
+        CategoryViewModel(categoryRepository)
+    }
+
+    NavHost(
+        navController = navController,
+        startDestination = Routes.HOME
+    ) {
+
+        composable(Routes.HOME) {
+
+            HomeScreen(
+                navController = navController,
+                viewModel = eventViewModel
+            )
         }
 
-        composable("addCategory") {
-            AddCategoryScreen(navController, viewModel)
+        composable(Routes.ADD_CATEGORY) {
+
+            AddCategoryScreen(
+                navController = navController,
+                viewModel = categoryViewModel
+            )
         }
 
-        composable("addEvent") {
-            AddEventScreen(navController, viewModel)
+        composable(Routes.ADD_EVENT) {
+
+            AddEventScreen(
+                navController = navController,
+                viewModel = eventViewModel
+            )
         }
 
-        composable("detail/{eventId}") { backStackEntry ->
-            val id = backStackEntry.arguments?.getString("eventId")?.toInt() ?: 0
-            DetailScreen(navController, viewModel, id)
+        composable("${Routes.DETAIL}/{id}") {
+
+            DetailScreen()
         }
     }
 }

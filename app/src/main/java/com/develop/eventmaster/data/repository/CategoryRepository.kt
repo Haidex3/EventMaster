@@ -2,9 +2,8 @@ package com.develop.eventmaster.data.repository
 
 import com.develop.eventmaster.data.local.dao.CategoryDao
 import com.develop.eventmaster.data.local.entities.CategoryEntity
-import javax.inject.Inject
 
-class CategoryRepository @Inject constructor(
+class CategoryRepository(
     private val dao: CategoryDao
 ) {
 

@@ -2,17 +2,21 @@ package com.develop.eventmaster.data.repository
 
 import com.develop.eventmaster.data.local.dao.EventDao
 import com.develop.eventmaster.data.local.entities.EventEntity
-import javax.inject.Inject
+import kotlinx.coroutines.flow.Flow
 
-class EventRepository @Inject constructor(
+class EventRepository(
     private val dao: EventDao
 ) {
 
-    fun getAll() = dao.getAll()
+    fun getAllEvents(): Flow<List<EventEntity>> {
+        return dao.getAll()
+    }
 
-    suspend fun insert(event: EventEntity) {
+    suspend fun insertEvent(event: EventEntity) {
         dao.insert(event)
     }
 
-    suspend fun getById(id: Int) = dao.getById(id)
+    suspend fun getEventById(id: Int): EventEntity {
+        return dao.getById(id)
+    }
 }
