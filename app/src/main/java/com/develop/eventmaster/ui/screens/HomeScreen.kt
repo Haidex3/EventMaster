@@ -1,5 +1,6 @@
 package com.develop.eventmaster.ui.screens
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
 import androidx.compose.material3.*
@@ -34,14 +35,30 @@ fun HomeScreen(navController: NavController, viewModel: EventViewModel) {
 
         LazyColumn(modifier = Modifier.padding(padding)) {
 
-            items(viewModel.categories) { category ->
+            viewModel.categories.forEach { category ->
 
-                Text(
-                    text = category.name,
-                    style = MaterialTheme.typography.titleLarge,
-                    modifier = Modifier.padding(8.dp)
-                )
+                item {
+                    Text(
+                        text = category.name,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(8.dp)
+                    )
+                }
 
+                val events = viewModel.getEventsByCategory(category.id)
+
+                events.forEach { event ->
+                    item {
+                        Text(
+                            text = "- ${event.title}",
+                            modifier = Modifier
+                                .padding(start = 16.dp, bottom = 4.dp)
+                                .clickable {
+                                    navController.navigate("detail/${event.id}")
+                                }
+                        )
+                    }
+                }
             }
         }
     }
