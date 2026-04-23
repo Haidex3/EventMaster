@@ -10,6 +10,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.develop.eventmaster.viewmodel.EventViewModel
 
+
 @Composable
 fun HomeScreen(navController: NavController, viewModel: EventViewModel) {
 
@@ -41,7 +42,7 @@ fun HomeScreen(navController: NavController, viewModel: EventViewModel) {
                     Text(
                         text = category.name,
                         style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(8.dp)
+                        modifier = Modifier.padding(12.dp)
                     )
                 }
 
@@ -51,8 +52,9 @@ fun HomeScreen(navController: NavController, viewModel: EventViewModel) {
                     item {
                         Text(
                             text = "- ${event.title}",
+                            style = MaterialTheme.typography.bodyLarge,
                             modifier = Modifier
-                                .padding(start = 16.dp, bottom = 4.dp)
+                                .padding(start = 20.dp, bottom = 6.dp)
                                 .clickable {
                                     navController.navigate("detail/${event.id}")
                                 }

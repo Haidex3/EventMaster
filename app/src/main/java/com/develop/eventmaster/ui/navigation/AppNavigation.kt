@@ -29,11 +29,9 @@ fun AppNavigation(viewModel: EventViewModel) {
             AddEventScreen(navController, viewModel)
         }
 
-        composable(
-            "detail/{eventId}",
-            arguments = listOf(navArgument("eventId") { type = NavType.IntType })
-        ) {
-            DetailScreen(navController, viewModel)
+        composable("detail/{eventId}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("eventId")?.toInt() ?: 0
+            DetailScreen(navController, viewModel, id)
         }
     }
 }

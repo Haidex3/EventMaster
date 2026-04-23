@@ -22,8 +22,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            val viewModel: EventViewModel = viewModel()
-            AppNavigation(viewModel)
+            AppTheme {
+                val viewModel: EventViewModel = viewModel()
+                AppNavigation(viewModel)
+            }
         }
     }
 }

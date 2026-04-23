@@ -8,14 +8,11 @@ import com.develop.eventmaster.model.Event
 
 class EventViewModel : ViewModel() {
 
-    var categories = mutableStateListOf<Category>()
-        private set
+    private var categoryId = 0
+    private var eventId = 0
 
-    var events = mutableStateListOf<Event>()
-        private set
-
-    private var categoryIdCounter = 0
-    private var eventIdCounter = 0
+    val categories = mutableStateListOf<Category>()
+    val events = mutableStateListOf<Event>()
 
     init {
         addCategory("Música")
@@ -24,18 +21,16 @@ class EventViewModel : ViewModel() {
     }
 
     fun addCategory(name: String) {
-        categories.add(Category(categoryIdCounter++, name))
+        categories.add(Category(categoryId++, name))
     }
 
     fun addEvent(title: String, description: String, categoryId: Int) {
-        events.add(Event(eventIdCounter++, title, description, categoryId))
+        events.add(Event(eventId++, title, description, categoryId))
     }
 
-    fun getEventsByCategory(categoryId: Int): List<Event> {
-        return events.filter { it.categoryId == categoryId }
-    }
+    fun getEventsByCategory(id: Int) =
+        events.filter { it.categoryId == id }
 
-    fun getEventById(id: Int): Event? {
-        return events.find { it.id == id }
-    }
+    fun getEventById(id: Int) =
+        events.find { it.id == id }
 }

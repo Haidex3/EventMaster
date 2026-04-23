@@ -13,38 +13,26 @@ fun AddEventScreen(navController: NavController, viewModel: EventViewModel) {
 
     var title by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    var selectedCategoryId by remember { mutableStateOf<Int?>(null) }
+    var selectedCategory by remember { mutableStateOf<Int?>(null) }
     var error by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.padding(16.dp)) {
 
-        Text("Nuevo Evento")
+        Text("Nuevo Evento", style = MaterialTheme.typography.titleLarge)
 
-        TextField(
-            value = title,
-            onValueChange = {
-                title = it
-                error = ""
-            },
-            label = { Text("Título") }
-        )
+        Spacer(modifier = Modifier.height(10.dp))
 
-        TextField(
-            value = description,
-            onValueChange = {
-                description = it
-                error = ""
-            },
-            label = { Text("Descripción") }
-        )
+        TextField(value = title, onValueChange = { title = it }, label = { Text("Título") })
 
-        Spacer(modifier = Modifier.height(8.dp))
+        TextField(value = description, onValueChange = { description = it }, label = { Text("Descripción") })
 
-        Text("Selecciona Categoría")
+        Spacer(modifier = Modifier.height(10.dp))
+
+        Text("Categorías:")
 
         viewModel.categories.forEach {
             Button(
-                onClick = { selectedCategoryId = it.id },
+                onClick = { selectedCategory = it.id },
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(it.name)
@@ -55,17 +43,17 @@ fun AddEventScreen(navController: NavController, viewModel: EventViewModel) {
             Text(error, color = MaterialTheme.colorScheme.error)
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Button(onClick = {
-            if (title.isBlank() || description.isBlank() || selectedCategoryId == null) {
+            if (title.isBlank() || description.isBlank() || selectedCategory == null) {
                 error = "Completa todos los campos"
             } else {
-                viewModel.addEvent(title, description, selectedCategoryId!!)
+                viewModel.addEvent(title, description, selectedCategory!!)
                 navController.popBackStack()
             }
         }) {
-            Text("Guardar Evento")
+            Text("Guardar evento")
         }
     }
 }

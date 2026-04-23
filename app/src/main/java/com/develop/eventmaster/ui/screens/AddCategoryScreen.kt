@@ -8,6 +8,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.develop.eventmaster.viewmodel.EventViewModel
 
+
 @Composable
 fun AddCategoryScreen(navController: NavController, viewModel: EventViewModel) {
 
@@ -16,7 +17,9 @@ fun AddCategoryScreen(navController: NavController, viewModel: EventViewModel) {
 
     Column(modifier = Modifier.padding(16.dp)) {
 
-        Text("Nueva Categoría")
+        Text("Nueva Categoría", style = MaterialTheme.typography.titleLarge)
+
+        Spacer(modifier = Modifier.height(10.dp))
 
         TextField(
             value = name,
@@ -24,14 +27,14 @@ fun AddCategoryScreen(navController: NavController, viewModel: EventViewModel) {
                 name = it
                 error = ""
             },
-            label = { Text("Nombre") }
+            label = { Text("Nombre categoría") }
         )
 
         if (error.isNotEmpty()) {
             Text(error, color = MaterialTheme.colorScheme.error)
         }
 
-        Spacer(modifier = Modifier.height(8.dp))
+        Spacer(modifier = Modifier.height(10.dp))
 
         Button(onClick = {
             if (name.isBlank()) {
