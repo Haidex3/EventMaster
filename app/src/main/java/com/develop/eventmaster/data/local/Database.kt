@@ -12,7 +12,7 @@ import com.develop.eventmaster.data.local.entities.EventEntity
         CategoryEntity::class,
         EventEntity::class
     ],
-    version = 1
+    version = 2
 )
 abstract class AppDatabase : RoomDatabase() {
 
