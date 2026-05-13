@@ -32,9 +32,6 @@ fun EventCard(
 
             Text(text = event.title)
 
-            Text(text = event.place)
-
-            Text(text = event.date)
         }
     }
 }

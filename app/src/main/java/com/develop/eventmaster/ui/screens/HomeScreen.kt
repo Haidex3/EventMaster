@@ -38,14 +38,18 @@ fun HomeScreen(
 
     val events by viewModel.events.collectAsState()
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+    val categories by viewModel.categories.collectAsState()
+>>>>>>> 8ed41c6 (fix: view)
 
     val groupedEvents = events.groupBy { it.categoryId }
 >>>>>>> 61f5555 (fix: dependencies)
 
     Scaffold(
-
         floatingActionButton = {
+<<<<<<< HEAD
 <<<<<<< HEAD
 
             FloatingActionButton(
@@ -53,6 +57,8 @@ fun HomeScreen(
                     navController.navigate(Routes.ADD_EVENT)
 =======
 
+=======
+>>>>>>> 8ed41c6 (fix: view)
             Column {
 
                 FloatingActionButton(
@@ -79,6 +85,7 @@ fun HomeScreen(
             }
         }
 <<<<<<< HEAD
+<<<<<<< HEAD
     ) { paddingValues ->
 
         if(events.isEmpty()) {
@@ -99,6 +106,8 @@ fun HomeScreen(
 
 =======
 
+=======
+>>>>>>> 8ed41c6 (fix: view)
     ) { paddingValues ->
 
         if (events.isEmpty()) {
@@ -112,12 +121,15 @@ fun HomeScreen(
                 contentPadding = paddingValues
             ) {
 
-                groupedEvents.forEach { (category, categoryEvents) ->
+                groupedEvents.forEach { (categoryId, categoryEvents) ->
+
+                    val categoryName =
+                        categories.find { it.id == categoryId }?.name
+                            ?: "Sin categoría"
 
                     item {
-
                         Text(
-                            text = category.toString(),
+                            text = categoryName,
                             style = MaterialTheme.typography.titleLarge,
                             modifier = Modifier.padding(vertical = 12.dp)
                         )

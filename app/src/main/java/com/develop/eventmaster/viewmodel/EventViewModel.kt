@@ -136,8 +136,6 @@ class EventViewModel(
                 EventEntity(
                     title = title,
                     description = description,
-                    place = "Sin lugar",
-                    date = "Sin fecha",
                     categoryId = selectedCategoryEntity?.id ?: 1
                 )
             )
