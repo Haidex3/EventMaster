@@ -2,12 +2,6 @@ package com.develop.eventmaster.ui.screens.addevent
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
-<<<<<<< HEAD
-import androidx.compose.material3.Scaffold
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.navigation.NavController
-=======
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.MaterialTheme
@@ -20,7 +14,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.develop.eventmaster.ui.components.CategoryChip
->>>>>>> 61f5555 (fix: dependencies)
 import com.develop.eventmaster.ui.components.CustomButton
 import com.develop.eventmaster.ui.components.CustomTextField
 import com.develop.eventmaster.viewmodel.EventViewModel
@@ -31,12 +24,6 @@ fun AddEventScreen(
     viewModel: EventViewModel
 ) {
 
-<<<<<<< HEAD
-    Scaffold {
-
-        Column(
-            modifier = Modifier.padding(it)
-=======
     val categories by viewModel.categories.collectAsState()
 
     Scaffold {
@@ -45,23 +32,17 @@ fun AddEventScreen(
             modifier = Modifier
                 .padding(it)
                 .padding(16.dp)
->>>>>>> 61f5555 (fix: dependencies)
         ) {
 
             CustomTextField(
                 value = viewModel.title,
                 onValueChange = {
                     viewModel.title = it
-<<<<<<< HEAD
-=======
                     viewModel.titleError = null
->>>>>>> 61f5555 (fix: dependencies)
                 },
                 label = "Título"
             )
 
-<<<<<<< HEAD
-=======
             if (viewModel.titleError != null) {
 
                 Text(
@@ -70,21 +51,15 @@ fun AddEventScreen(
                 )
             }
 
->>>>>>> 61f5555 (fix: dependencies)
             CustomTextField(
                 value = viewModel.description,
                 onValueChange = {
                     viewModel.description = it
-<<<<<<< HEAD
-=======
                     viewModel.descriptionError = null
->>>>>>> 61f5555 (fix: dependencies)
                 },
                 label = "Descripción"
             )
 
-<<<<<<< HEAD
-=======
             if (viewModel.descriptionError != null) {
 
                 Text(
@@ -122,16 +97,10 @@ fun AddEventScreen(
                 )
             }
 
->>>>>>> 61f5555 (fix: dependencies)
             CustomButton(
                 text = "Guardar"
             ) {
 
-<<<<<<< HEAD
-                viewModel.addEvent()
-
-                navController.popBackStack()
-=======
                 val isValid = viewModel.validateEvent()
 
                 if (isValid) {
@@ -140,7 +109,6 @@ fun AddEventScreen(
 
                     navController.popBackStack()
                 }
->>>>>>> 61f5555 (fix: dependencies)
             }
         }
     }

@@ -9,27 +9,16 @@ class EventRepository(
 ) {
 
     fun getAllEvents(): Flow<List<EventEntity>> {
-<<<<<<< HEAD
-        return dao.getAll()
-    }
-
-    suspend fun insertEvent(event: EventEntity) {
-=======
 
         return dao.getAll()
     }
 
     suspend fun insertEvent(event: EventEntity) {
 
->>>>>>> 61f5555 (fix: dependencies)
         dao.insert(event)
     }
 
     suspend fun getEventById(id: Int): EventEntity {
-<<<<<<< HEAD
-        return dao.getById(id)
-    }
-=======
 
         return dao.getById(id)
     }
@@ -43,5 +32,4 @@ class EventRepository(
 
         dao.update(event)
     }
->>>>>>> 61f5555 (fix: dependencies)
 }

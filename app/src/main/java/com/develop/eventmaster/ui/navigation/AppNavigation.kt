@@ -30,13 +30,9 @@ fun AppNavigation() {
             context,
             AppDatabase::class.java,
             "event_master_db"
-<<<<<<< HEAD
-        ).build()
-=======
         )
             .fallbackToDestructiveMigration(true)
             .build()
->>>>>>> 61f5555 (fix: dependencies)
     }
 
     val eventRepository = remember {
@@ -48,14 +44,10 @@ fun AppNavigation() {
     }
 
     val eventViewModel = remember {
-<<<<<<< HEAD
-        EventViewModel(eventRepository)
-=======
         EventViewModel(
             repository = eventRepository,
             categoryRepository = categoryRepository
         )
->>>>>>> 61f5555 (fix: dependencies)
     }
 
     val categoryViewModel = remember {
@@ -91,11 +83,6 @@ fun AppNavigation() {
             )
         }
 
-<<<<<<< HEAD
-        composable("${Routes.DETAIL}/{id}") {
-
-            DetailScreen()
-=======
         composable("${Routes.DETAIL}/{id}") { backStackEntry ->
 
             val id = backStackEntry.arguments
@@ -106,7 +93,6 @@ fun AppNavigation() {
                 eventId = id,
                 viewModel = eventViewModel
             )
->>>>>>> 61f5555 (fix: dependencies)
         }
     }
 }

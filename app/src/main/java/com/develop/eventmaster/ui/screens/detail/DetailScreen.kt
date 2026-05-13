@@ -1,14 +1,5 @@
 package com.develop.eventmaster.ui.screens.detail
 
-<<<<<<< HEAD
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-
-@Composable
-fun DetailScreen() {
-
-    Text(text = "Detalle del evento")
-=======
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
@@ -57,5 +48,4 @@ fun DetailScreen(
             }
         }
     }
->>>>>>> 61f5555 (fix: dependencies)
 }

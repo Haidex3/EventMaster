@@ -5,61 +5,23 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-<<<<<<< HEAD
-import com.develop.eventmaster.data.local.entities.EventEntity
-=======
 import com.develop.eventmaster.data.local.entities.CategoryEntity
 import com.develop.eventmaster.data.local.entities.EventEntity
 import com.develop.eventmaster.data.repository.CategoryRepository
->>>>>>> 61f5555 (fix: dependencies)
 import com.develop.eventmaster.data.repository.EventRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class EventViewModel(
-<<<<<<< HEAD
-    private val repository: EventRepository
-=======
     private val repository: EventRepository,
     private val categoryRepository: CategoryRepository
->>>>>>> 61f5555 (fix: dependencies)
 ) : ViewModel() {
 
     var title by mutableStateOf("")
 
     var description by mutableStateOf("")
 
-<<<<<<< HEAD
-    val events = repository.getAllEvents()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList()
-        )
-
-    fun addEvent() {
-
-        if(title.isBlank()) return
-
-        viewModelScope.launch {
-
-            repository.insertEvent(
-                EventEntity(
-                    title = title,
-                    description = description,
-                    place = "Sin lugar",
-                    date = "Sin fecha",
-                    categoryId = 1
-                )
-            )
-
-            title = ""
-
-            description = ""
-        }
-    }
-=======
     var selectedCategory by mutableStateOf("")
 
     var titleError by mutableStateOf<String?>(null)
@@ -172,5 +134,4 @@ class EventViewModel(
 
         categoryError = null
     }
->>>>>>> 61f5555 (fix: dependencies)
 }
