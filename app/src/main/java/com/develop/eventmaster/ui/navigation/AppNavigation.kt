@@ -8,8 +8,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.room3.Room
 import com.develop.eventmaster.data.local.AppDatabase
-import com.develop.eventmaster.data.repository.CategoryRepository
-import com.develop.eventmaster.data.repository.EventRepository
+import com.develop.eventmaster.data.remote.repository.CategoryRepository
+import com.develop.eventmaster.data.remote.repository.EventRepository
 import com.develop.eventmaster.ui.screens.HomeScreen
 import com.develop.eventmaster.ui.screens.addcategory.AddCategoryScreen
 import com.develop.eventmaster.ui.screens.addevent.AddEventScreen

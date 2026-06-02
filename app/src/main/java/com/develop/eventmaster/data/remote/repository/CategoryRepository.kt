@@ -1,25 +1,30 @@
-package com.develop.eventmaster.data.repository
+package com.develop.eventmaster.data.remote.repository
 
-import com.develop.eventmaster.data.local.dao.CategoryDao
-import com.develop.eventmaster.data.local.entities.CategoryEntity
-import kotlinx.coroutines.flow.Flow
+import com.develop.eventmaster.data.remote.api.EventMasterApi
+import com.develop.eventmaster.data.remote.dto.CreateCategoryRequest
+import com.develop.eventmaster.model.Category
 
 class CategoryRepository(
-    private val dao: CategoryDao
+    private val api: EventMasterApi
 ) {
 
-    fun getAllCategories(): Flow<List<CategoryEntity>> {
+    suspend fun getAllCategories(): List<Category> {
 
-        return dao.getAll()
+        return api.getCategories().map {
+
+            Category(
+                id = it.id,
+                name = it.name
+            )
+        }
     }
 
-    suspend fun insert(category: CategoryEntity) {
+    suspend fun insert(name: String) {
 
-        dao.insert(category)
-    }
-
-    suspend fun getCategoryById(id: Int): CategoryEntity {
-
-        return dao.getById(id)
+        api.createCategory(
+            CreateCategoryRequest(
+                name = name
+            )
+        )
     }
 }

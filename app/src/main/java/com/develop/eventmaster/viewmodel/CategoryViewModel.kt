@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.develop.eventmaster.data.local.entities.CategoryEntity
-import com.develop.eventmaster.data.repository.CategoryRepository
+import com.develop.eventmaster.data.remote.repository.CategoryRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch

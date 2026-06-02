@@ -1,4 +1,6 @@
 package com.develop.eventmaster.data.remote.dto
 
-class CategoryDto {
-}
+data class CategoryDto(
+    val id: Int,
+    val name: String
+)

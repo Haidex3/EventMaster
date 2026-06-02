@@ -1,4 +1,5 @@
 package com.develop.eventmaster.data.remote.dto
 
-class CreateCategoryRequest {
-}
+data class CreateCategoryRequest(
+    val name: String
+)

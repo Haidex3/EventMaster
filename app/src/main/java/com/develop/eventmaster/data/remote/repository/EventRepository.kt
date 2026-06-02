@@ -1,35 +1,38 @@
-package com.develop.eventmaster.data.repository
+package com.develop.eventmaster.data.remote.repository
 
-import com.develop.eventmaster.data.local.dao.EventDao
-import com.develop.eventmaster.data.local.entities.EventEntity
-import kotlinx.coroutines.flow.Flow
+import com.develop.eventmaster.data.remote.api.EventMasterApi
+import com.develop.eventmaster.data.remote.dto.CreateEventRequest
+import com.develop.eventmaster.model.Event
 
 class EventRepository(
-    private val dao: EventDao
+    private val api: EventMasterApi
 ) {
 
-    fun getAllEvents(): Flow<List<EventEntity>> {
+    suspend fun getAllEvents(): List<Event> {
 
-        return dao.getAll()
+        return api.getEvents().map {
+
+            Event(
+                id = it.id,
+                title = it.title,
+                description = it.description,
+                categoryId = it.category_id
+            )
+        }
     }
 
-    suspend fun insertEvent(event: EventEntity) {
+    suspend fun insertEvent(
+        title: String,
+        description: String,
+        categoryId: Int
+    ) {
 
-        dao.insert(event)
-    }
-
-    suspend fun getEventById(id: Int): EventEntity {
-
-        return dao.getById(id)
-    }
-
-    suspend fun deleteEvent(event: EventEntity) {
-
-        dao.delete(event)
-    }
-
-    suspend fun updateEvent(event: EventEntity) {
-
-        dao.update(event)
+        api.createEvent(
+            CreateEventRequest(
+                title = title,
+                description = description,
+                category_id = categoryId
+            )
+        )
     }
 }
