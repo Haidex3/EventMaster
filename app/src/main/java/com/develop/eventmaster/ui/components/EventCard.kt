@@ -9,11 +9,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.develop.eventmaster.data.local.entities.EventEntity
+import com.develop.eventmaster.model.Event
 
 @Composable
 fun EventCard(
-    event: EventEntity,
+    event: Event,
     onClick: () -> Unit
 ) {
 

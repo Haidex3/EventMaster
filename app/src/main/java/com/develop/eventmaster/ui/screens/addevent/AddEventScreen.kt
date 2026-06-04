@@ -26,11 +26,11 @@ fun AddEventScreen(
 
     val categories by viewModel.categories.collectAsState()
 
-    Scaffold {
+    Scaffold { paddingValues ->
 
         Column(
             modifier = Modifier
-                .padding(it)
+                .padding(paddingValues)
                 .padding(16.dp)
         ) {
 
@@ -43,10 +43,9 @@ fun AddEventScreen(
                 label = "Título"
             )
 
-            if (viewModel.titleError != null) {
-
+            viewModel.titleError?.let {
                 Text(
-                    text = viewModel.titleError!!,
+                    text = it,
                     color = MaterialTheme.colorScheme.error
                 )
             }
@@ -60,17 +59,19 @@ fun AddEventScreen(
                 label = "Descripción"
             )
 
-            if (viewModel.descriptionError != null) {
-
+            viewModel.descriptionError?.let {
                 Text(
-                    text = viewModel.descriptionError!!,
+                    text = it,
                     color = MaterialTheme.colorScheme.error
                 )
             }
 
             Text(
                 text = "Selecciona una categoría",
-                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp)
+                modifier = Modifier.padding(
+                    top = 16.dp,
+                    bottom = 8.dp
+                )
             )
 
             LazyRow {
@@ -88,10 +89,9 @@ fun AddEventScreen(
                 }
             }
 
-            if (viewModel.categoryError != null) {
-
+            viewModel.categoryError?.let {
                 Text(
-                    text = viewModel.categoryError!!,
+                    text = it,
                     color = MaterialTheme.colorScheme.error,
                     modifier = Modifier.padding(top = 8.dp)
                 )
@@ -101,9 +101,7 @@ fun AddEventScreen(
                 text = "Guardar"
             ) {
 
-                val isValid = viewModel.validateEvent()
-
-                if (isValid) {
+                if (viewModel.validateEvent()) {
 
                     viewModel.addEvent()
 

@@ -2,12 +2,10 @@ package com.develop.eventmaster.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.room3.Room
-import com.develop.eventmaster.data.local.AppDatabase
+import com.develop.eventmaster.data.remote.RetrofitClient
 import com.develop.eventmaster.data.remote.repository.CategoryRepository
 import com.develop.eventmaster.data.remote.repository.EventRepository
 import com.develop.eventmaster.ui.screens.HomeScreen
@@ -22,25 +20,16 @@ fun AppNavigation() {
 
     val navController = rememberNavController()
 
-    val context = LocalContext.current
-
-    val database = remember {
-
-        Room.databaseBuilder(
-            context,
-            AppDatabase::class.java,
-            "event_master_db"
-        )
-            .fallbackToDestructiveMigration(true)
-            .build()
+    val categoryRepository = remember {
+        CategoryRepository(RetrofitClient.api)
     }
 
     val eventRepository = remember {
-        EventRepository(database.eventDao())
+        EventRepository(RetrofitClient.api)
     }
 
-    val categoryRepository = remember {
-        CategoryRepository(database.categoryDao())
+    val categoryViewModel = remember {
+        CategoryViewModel(categoryRepository)
     }
 
     val eventViewModel = remember {
@@ -48,10 +37,6 @@ fun AppNavigation() {
             repository = eventRepository,
             categoryRepository = categoryRepository
         )
-    }
-
-    val categoryViewModel = remember {
-        CategoryViewModel(categoryRepository)
     }
 
     NavHost(
@@ -87,7 +72,8 @@ fun AppNavigation() {
 
             val id = backStackEntry.arguments
                 ?.getString("id")
-                ?.toIntOrNull() ?: 0
+                ?.toIntOrNull()
+                ?: 0
 
             DetailScreen(
                 eventId = id,

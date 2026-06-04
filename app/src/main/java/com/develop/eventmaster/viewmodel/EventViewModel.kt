@@ -5,11 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.develop.eventmaster.data.local.entities.EventEntity
 import com.develop.eventmaster.data.remote.repository.CategoryRepository
 import com.develop.eventmaster.data.remote.repository.EventRepository
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
+import com.develop.eventmaster.model.Category
+import com.develop.eventmaster.model.Event
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class EventViewModel(
@@ -29,19 +30,42 @@ class EventViewModel(
 
     var categoryError by mutableStateOf<String?>(null)
 
-    val events = repository.getAllEvents()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList()
-        )
+    private val _events =
+        MutableStateFlow<List<Event>>(emptyList())
 
-    val categories = categoryRepository.getAllCategories()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList()
-        )
+    val events: StateFlow<List<Event>>
+        get() = _events
+
+    private val _categories =
+        MutableStateFlow<List<Category>>(emptyList())
+
+    val categories: StateFlow<List<Category>>
+        get() = _categories
+
+    init {
+
+        loadCategories()
+
+        loadEvents()
+    }
+
+    fun loadEvents() {
+
+        viewModelScope.launch {
+
+            _events.value =
+                repository.getAllEvents()
+        }
+    }
+
+    fun loadCategories() {
+
+        viewModelScope.launch {
+
+            _categories.value =
+                categoryRepository.getAllCategories()
+        }
+    }
 
     fun validateEvent(): Boolean {
 
@@ -89,23 +113,24 @@ class EventViewModel(
 
         viewModelScope.launch {
 
-            val selectedCategoryEntity = categories.value.find {
-                it.name == selectedCategory
-            }
+            val selectedCategoryModel =
+                categories.value.find {
+                    it.name == selectedCategory
+                }
 
             repository.insertEvent(
-                EventEntity(
-                    title = title,
-                    description = description,
-                    categoryId = selectedCategoryEntity?.id ?: 1
-                )
+                title = title,
+                description = description,
+                categoryId = selectedCategoryModel?.id ?: 1
             )
+
+            loadEvents()
 
             clearForm()
         }
     }
 
-    fun getEventById(id: Int): EventEntity? {
+    fun getEventById(id: Int): Event? {
 
         return events.value.find {
             it.id == id

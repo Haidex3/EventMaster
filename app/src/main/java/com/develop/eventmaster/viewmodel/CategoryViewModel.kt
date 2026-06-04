@@ -5,10 +5,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.develop.eventmaster.data.local.entities.CategoryEntity
 import com.develop.eventmaster.data.remote.repository.CategoryRepository
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
+import com.develop.eventmaster.model.Category
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class CategoryViewModel(
@@ -19,12 +19,24 @@ class CategoryViewModel(
 
     var categoryError by mutableStateOf<String?>(null)
 
-    val categories = repository.getAllCategories()
-        .stateIn(
-            viewModelScope,
-            SharingStarted.WhileSubscribed(5000),
-            emptyList()
-        )
+    private val _categories =
+        MutableStateFlow<List<Category>>(emptyList())
+
+    val categories: StateFlow<List<Category>>
+        get() = _categories
+
+    init {
+        loadCategories()
+    }
+
+    fun loadCategories() {
+
+        viewModelScope.launch {
+
+            _categories.value =
+                repository.getAllCategories()
+        }
+    }
 
     fun validateCategory(): Boolean {
 
@@ -32,7 +44,8 @@ class CategoryViewModel(
 
             categoryName.isBlank() -> {
 
-                categoryError = "Ingrese un nombre de categoría"
+                categoryError =
+                    "Ingrese un nombre de categoría"
 
                 false
             }
@@ -52,15 +65,11 @@ class CategoryViewModel(
 
         viewModelScope.launch {
 
-            repository.insert(
-                CategoryEntity(
-                    name = categoryName
-                )
-            )
+            repository.insert(categoryName)
 
             categoryName = ""
 
-            categoryError = null
+            loadCategories()
         }
     }
 }

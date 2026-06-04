@@ -34,13 +34,12 @@ fun DetailScreen(
                 ) {
 
                     Text(
-                        text = event.title,
+                        text = it.title,
                         style = MaterialTheme.typography.headlineSmall
                     )
 
-
                     Text(
-                        text = event.description,
+                        text = it.description,
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(top = 16.dp)
                     )

@@ -11,11 +11,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.develop.eventmaster.data.local.entities.CategoryEntity
+import com.develop.eventmaster.model.Category
 
 @Composable
 fun CategoryChip(
-    category: CategoryEntity,
+    category: Category,
     selected: Boolean,
     onClick: () -> Unit
 ) {
