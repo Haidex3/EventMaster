@@ -10,6 +10,7 @@ object RetrofitClient {
 
     private const val BASE_URL =
         "http://192.168.4.187:8000/api/"
+    /*como a mi me toca conectar el celular de forma fisica me toca la ip de mi pc*/
 
     private val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY

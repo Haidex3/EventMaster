@@ -133,7 +133,8 @@ class EventViewModel(
             repository.insertEvent(
                 title = title,
                 description = description,
-                categoryId = selectedCategoryModel?.id ?: 1
+                categoryId = selectedCategoryModel?.id ?: 1,
+                date = date
             )
 
             loadEvents()
@@ -162,11 +163,15 @@ class EventViewModel(
 
         description = ""
 
+        date = ""
+
         selectedCategory = ""
 
         titleError = null
 
         descriptionError = null
+
+        dateError = null
 
         categoryError = null
     }

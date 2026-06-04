@@ -1,6 +1,5 @@
 package com.develop.eventmaster.ui.screens.addevent
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -30,6 +29,7 @@ import com.develop.eventmaster.viewmodel.EventViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import java.util.TimeZone
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -43,6 +43,8 @@ fun AddEventScreen(
     var showDatePicker by remember {
         mutableStateOf(false)
     }
+
+    val datePickerState = rememberDatePickerState()
 
     Scaffold { paddingValues ->
 
@@ -87,16 +89,18 @@ fun AddEventScreen(
             OutlinedTextField(
                 value = viewModel.date,
                 onValueChange = {},
+                readOnly = true,
                 label = {
                     Text("Fecha")
                 },
-                readOnly = true,
-                modifier = Modifier
-                    .padding(top = 16.dp)
-                    .clickable {
-                        showDatePicker = true
-                    }
+                modifier = Modifier.padding(top = 16.dp)
             )
+
+            CustomButton(
+                text = "Seleccionar fecha"
+            ) {
+                showDatePicker = true
+            }
 
             viewModel.dateError?.let {
                 Text(
@@ -148,55 +152,54 @@ fun AddEventScreen(
                 }
             }
         }
+    }
 
-        if (showDatePicker) {
+    if (showDatePicker) {
 
-            val datePickerState = rememberDatePickerState()
+        DatePickerDialog(
+            onDismissRequest = {
+                showDatePicker = false
+            },
+            confirmButton = {
 
-            DatePickerDialog(
-                onDismissRequest = {
-                    showDatePicker = false
-                },
-                confirmButton = {
+                TextButton(
+                    onClick = {
 
-                    TextButton(
-                        onClick = {
+                        datePickerState.selectedDateMillis?.let { millis ->
 
-                            datePickerState.selectedDateMillis?.let { millis ->
+                            val formatter = SimpleDateFormat(
+                                "yyyy-MM-dd",
+                                Locale.getDefault()
+                            )
 
-                                val formatter = SimpleDateFormat(
-                                    "yyyy-MM-dd",
-                                    Locale.getDefault()
-                                )
+                            formatter.timeZone = TimeZone.getTimeZone("UTC")
 
-                                viewModel.date =
-                                    formatter.format(Date(millis))
+                            viewModel.date = formatter.format(Date(millis))
 
-                                viewModel.dateError = null
-                            }
-
-                            showDatePicker = false
+                            viewModel.dateError = null
                         }
-                    ) {
-                        Text("Aceptar")
-                    }
-                },
-                dismissButton = {
 
-                    TextButton(
-                        onClick = {
-                            showDatePicker = false
-                        }
-                    ) {
-                        Text("Cancelar")
+                        showDatePicker = false
                     }
+                ) {
+                    Text("Aceptar")
                 }
-            ) {
+            },
+            dismissButton = {
 
-                DatePicker(
-                    state = datePickerState
-                )
+                TextButton(
+                    onClick = {
+                        showDatePicker = false
+                    }
+                ) {
+                    Text("Cancelar")
+                }
             }
+        ) {
+
+            DatePicker(
+                state = datePickerState
+            )
         }
     }
 }

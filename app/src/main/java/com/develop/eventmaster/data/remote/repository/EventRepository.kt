@@ -25,7 +25,8 @@ class EventRepository(
     suspend fun insertEvent(
         title: String,
         description: String,
-        categoryId: Int
+        categoryId: Int,
+        date: String
     ) {
 
         api.createEvent(
@@ -33,7 +34,7 @@ class EventRepository(
                 title = title,
                 description = description,
                 category_id = categoryId,
-                date = "2026-06-03"
+                date = date
             )
         )
     }
