@@ -16,6 +16,7 @@ class EventRepository(
                 id = it.id,
                 title = it.title,
                 description = it.description,
+                date = it.date,
                 categoryId = it.category_id
             )
         }
@@ -31,7 +32,8 @@ class EventRepository(
             CreateEventRequest(
                 title = title,
                 description = description,
-                category_id = categoryId
+                category_id = categoryId,
+                date = "2026-06-03"
             )
         )
     }

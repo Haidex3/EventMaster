@@ -30,6 +30,9 @@ class EventViewModel(
 
     var categoryError by mutableStateOf<String?>(null)
 
+    var date by mutableStateOf("")
+    var dateError by mutableStateOf<String?>(null)
+
     private val _events =
         MutableStateFlow<List<Event>>(emptyList())
 
@@ -91,6 +94,15 @@ class EventViewModel(
         } else {
 
             descriptionError = null
+        }
+
+        if (date.isBlank()) {
+            dateError = "Debe seleccionar una fecha"
+            isValid = false
+        }
+        else {
+
+            dateError = null
         }
 
         if (selectedCategory.isBlank()) {

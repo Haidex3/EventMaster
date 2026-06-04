@@ -10,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.develop.eventmaster.viewmodel.EventViewModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 @Composable
 fun DetailScreen(
@@ -40,6 +42,14 @@ fun DetailScreen(
 
                     Text(
                         text = it.description,
+                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier.padding(top = 16.dp)
+                    )
+
+                    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+
+                    Text(
+                        text = formatter.format(it.date),
                         style = MaterialTheme.typography.bodyLarge,
                         modifier = Modifier.padding(top = 16.dp)
                     )
